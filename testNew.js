@@ -17,6 +17,8 @@ con.connect(function(err){
     }else{
         console.log('mysql connected')
     }
+
+    ///
 })
 function readStudent(req, res){
     try{
