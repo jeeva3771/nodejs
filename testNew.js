@@ -119,3 +119,4 @@ app.delete('/student/:id', deleteStudent)
 app.listen(2000, ()=>{
     console.log('listen 2000port')
 })
+.....
