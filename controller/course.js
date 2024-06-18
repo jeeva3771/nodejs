@@ -1,4 +1,4 @@
-function readStudent(req, res) {
+function readCourse(req, res) {
     const mysqlClient = req.app.mysqlClient
     try {
         mysqlClient.query('select * from course', (err, result) => {
@@ -13,7 +13,7 @@ function readStudent(req, res) {
     }
 }
 
-function readOneStudent(req, res) {
+function readOneCourse(req, res) {
     const mysqlClient = req.app.mysqlClient
     const studId = req.params.id;
     try {
@@ -29,7 +29,7 @@ function readOneStudent(req, res) {
     }
 }
 
-function createStudent(req, res) {
+function createCourse(req, res) {
     const {
         courseName,
         description
@@ -54,7 +54,7 @@ function createStudent(req, res) {
     }
 }
 
-function updateStudent(req, res) {
+function updateCourse(req, res) {
     const studId = req.params.id;
     const {
         courseName = null,
@@ -101,7 +101,7 @@ function updateStudent(req, res) {
     }
 }
 
-function deleteStudent(req, res) {
+function deleteCourse(req, res) {
     const studId = req.params.id;
 
     const mysqlClient = req.app.mysqlClient
@@ -130,11 +130,10 @@ function deleteStudent(req, res) {
 }
 
 module.exports = (app) => {
-    app.get('/course', readStudent)
-    app.get('/course/:id', readOneStudent)
-    app.post('/course', createStudent)
-    app.put('/course/:id', updateStudent)
-    app.delete('/course/:id', deleteStudent)
+    app.get('/course', readCourse)
+    app.get('/course/:id', readOneCourse)
+    app.post('/course', createCourse)
+    app.put('/course/:id', updateCourse)
+    app.delete('/course/:id', deleteCourse)
 }
 
-///dhjdh
