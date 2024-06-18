@@ -61,37 +61,37 @@ function createStudent(req, res) {
 function updateStudent(req, res) {
     const studId = req.params.id;
     const {
-        name,
-        dob,
-        gender,
-        emailId,
-        courseId,
+        name = null,
+        dob = null,
+        gender = null,
+        emailId = null,
+        courseId = null,
     } = req.body;
 
     const values = []
     const updates = []
 
-    if (name !== "") {
+    if (name) {
         values.push(name)
         updates.push(' name = ?')
     }
 
-    if (dob !== "") {
+    if (dob) {
         values.push(dob)
         updates.push(' dob = ?')
     }
 
-    if (gender !== "") {
+    if (gender) {
         values.push(gender)
         updates.push(' gender = ?')
     }
 
-    if (emailId !== "") {
+    if (emailId) {
         values.push(emailId)
         updates.push(' emailId = ?')
     }
 
-    if (courseId !== "") {
+    if (courseId) {
         values.push(courseId)
         updates.push(' courseId = ?')
     }
