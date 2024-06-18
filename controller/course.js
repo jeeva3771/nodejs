@@ -57,29 +57,28 @@ function createStudent(req, res) {
 function updateStudent(req, res) {
     const studId = req.params.id;
     const {
-        courseName,
-        description
+        courseName = null,
+        description = null
     } = req.body;
 
     const values = []
     const updates = []
 
-    if (courseName !== "") {
+    if (courseName) {
         values.push(courseName)
         updates.push(' courseName = ?')
     }
 
-    if (description !== "") {
+    if (description) {
         values.push(description)
         updates.push(' description = ?')
     }
 
     values.push(studId)
-
     const mysqlClient = req.app.mysqlClient
 
     try {
-        mysqlClient.query('update course set ' + updates.join(',') + 'where id = ?', values, function (err, result) {
+        mysqlClient.query('update course set ' + updates.join(',') + ' where id = ?', values, function (err, result) {
             if (err) {
                 console.log(err.sqlMessage)
                 return res.status(409).send(err2.sqlMessage)
@@ -137,3 +136,5 @@ module.exports = (app) => {
     app.put('/course/:id', updateStudent)
     app.delete('/course/:id', deleteStudent)
 }
+
+///dhjdh
