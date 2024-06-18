@@ -1,8 +1,8 @@
 const express = require('express')
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
-const student = require('./modules/student.js')
-const course = require('./modules/course.js')
+const student = require('./controller/student.js')
+const course = require('./controller/course.js')
 const app = express()
 app.use(bodyParser.json())
 
