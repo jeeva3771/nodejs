@@ -1,7 +1,16 @@
 function readStudent(req, res) {
     const mysqlClient = req.app.mysqlClient
     try {
-        mysqlClient.query('select * from test_new.student', (err, result) => {
+        mysqlClient.query(`select  
+	                        stud.*,
+                            cour.courseName,
+                            sch1.name as 10thSchool,
+	                        sch2.name as 12thSchool
+
+                            from student as stud
+                            inner join course as cour on cour.id = stud.courseId
+                            inner join school as sch1 on sch1.id = stud.schoolTenthId
+                            inner join school as sch2 on sch2.id = stud.schoolTwelfthId`, (err, result) => {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
@@ -18,7 +27,17 @@ function readOneStudent(req, res) {
     const mysqlClient = req.app.mysqlClient;
 
     try {
-        mysqlClient.query('select * from student where id = ?', [studId], (err, result) => {
+        mysqlClient.query(`select  
+	                        stud.*,
+                            cour.courseName,
+                            sch1.name as 10thSchool,
+	                        sch2.name as 12thSchool
+
+                            from student as stud
+                            inner join course as cour on cour.id = stud.courseId
+                            inner join school as sch1 on sch1.id = stud.schoolTenthId
+                            inner join school as sch2 on sch2.id = stud.schoolTwelfthId
+                            where id = ?`, [studId], (err, result) => {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
@@ -150,12 +169,12 @@ function deleteStudent(req, res) {
         console.error(error)
     }
 }
-//nsnjsnjjn dnn
+
 
 module.exports = (app) => {
-    app.get('/student/:id', readOneStudent)
-    app.get('/student', readStudent)
-    app.post('/student', createStudent)
-    app.put('/student/:id', updateStudent)
-    app.delete('/student/:id', deleteStudent)
+    app.get('/api/student/:id', readOneStudent)
+    app.get('/api/student', readStudent)
+    app.post('/api/student', createStudent)
+    app.put('/api/student/:id', updateStudent)
+    app.delete('/api/student/:id', deleteStudent)
 }

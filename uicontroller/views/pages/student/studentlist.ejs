@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <%- include('../../partials/head') %>
+</head>
+
+<body>
+    <header>
+        <%- include('../../partials/header') %>
+    </header>
+    <main>
+        <main>
+            <div class="jumbotron">
+              <div class="left-side">
+                <a type="button" href="student/add" class="btn btn-secondary">ADD STUDENT</a>
+              </div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% for(i=0; i< result.length; i++) { %>
+                    <tr>
+                      <td scope="row">
+                        <%=result[i].id %>
+                    </td>
+                      <td>
+                        <%=result[i].firstName %>
+                      </td>
+                      <td>
+                        <%=result[i].lastName %>
+                      </td>
+                      <td>
+                        <%=result[i].yearOfStudy %>
+                      </td>
+                      <td>
+                        <%=result[i].native %>
+                      </td>
+                      <td>
+                        <%=result[i].createAt %>
+                      </td>
+                      <td>Null</td>
+                    </tr>
+                    <% } %>
+                </tbody>
+              </table>
+            </div>
+          </main>
+
+
+
+    </main>
+    <footer>
+        <%- include('../../partials/footer') %>
+    </footer>
+</body>
+
+</html>

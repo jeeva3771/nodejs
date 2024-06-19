@@ -130,10 +130,10 @@ function deleteCourse(req, res) {
 }
 
 module.exports = (app) => {
-    app.get('/course', readCourse)
-    app.get('/course/:id', readOneCourse)
-    app.post('/course', createCourse)
-    app.put('/course/:id', updateCourse)
-    app.delete('/course/:id', deleteCourse)
+    app.get('/api/course', readCourse)
+    app.get('/api/course/:id', readOneCourse)
+    app.post('/api/course', createCourse)
+    app.put('/api/course/:id', updateCourse)
+    app.delete('/api/course/:id', deleteCourse)
 }
 
