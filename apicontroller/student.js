@@ -23,8 +23,14 @@ function readStudent(req, res) {
 }
 
 function readOneStudent(req, res) {
-    const studId = req.params.id;
-    const mysqlClient = req.app.mysqlClient;
+    const {
+        app: {
+            mysqlClient,   
+        },
+        params: {
+            id: studId
+        }
+    } = req
 
     try {
         mysqlClient.query(`select  
@@ -37,7 +43,7 @@ function readOneStudent(req, res) {
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId
                             inner join school as sch2 on sch2.id = stud.schoolTwelfthId
-                            where id = ?`, [studId], (err, result) => {
+                            where stud.id = ?`, [studId], (err, result) => {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {

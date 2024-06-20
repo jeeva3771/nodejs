@@ -1,4 +1,3 @@
-<<<<<<< HEAD:controller/school.js
 function readSchool(req, res) {
     const mysqlClient = req.app.mysqlClient
     try {
@@ -139,7 +138,6 @@ module.exports = (app) => {
     app.delete('/school/:id', deleteSchool)
 }
 
-=======
 function readSchool(req, res) {
     const mysqlClient = req.app.mysqlClient
     try {
@@ -275,4 +273,3 @@ module.exports = (app) => {
     app.delete('/api/school/:id', deleteSchool)
 }
 
->>>>>>> a752e80 (add):apicontroller/school.js
