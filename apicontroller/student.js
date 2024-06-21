@@ -48,7 +48,6 @@ function readOneStudent(req, res) {
                 res.status(409).send(err.sqlMessage)
             } else {
                 res.status(200).send(result[0])
-
             }
         })
     } catch (error) {
