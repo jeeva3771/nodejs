@@ -6,7 +6,6 @@ function readStudent(req, res) {
                             cour.courseName,
                             sch1.name as 10thSchool,
 	                        sch2.name as 12thSchool
-
                             from student as stud
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId
@@ -62,8 +61,10 @@ function createStudent(req, res) {
         gender,
         emailId,
         courseId,
+        schoolTenthId,
+        schoolTwelfthId
     } = req.body;
-    if (name === '' || dob === '' || gender === '' || emailId === '' || courseId === '') {
+    if (name === '' || dob === '' || gender === '' || emailId === '' || courseId === '' || schoolTenthId === '' || schoolTwelfthId ==='') {
         res.status(400).send('invalid input')
     }
 
