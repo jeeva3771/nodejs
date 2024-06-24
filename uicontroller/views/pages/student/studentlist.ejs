@@ -8,55 +8,68 @@
     <header>
         <%- include('../../partials/header') %>
     </header>
-    <main>
         <main>
             <div class="jumbotron">
-              <div class="left-side">
-                <a type="button" href="student/add" class="btn btn-secondary">ADD STUDENT</a>
+              <div class="Click">
+                <a href="/student/add" class="addClick size">ADD STUDENT</a>
               </div>
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col">id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">EmailId</th>
+                    <th scope="col">D0B</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">10th SchoolName</th>
+                    <th scope="col">12th SchoolName</th>
+                    <th scope="col">CreateAt</th>
+                    <th scope="col">UpdateAt</th> 
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                 <% for(i=0; i< result.length; i++) { %>
                     <tr>
                       <td scope="row">
-                        <%=result[i].id %>
+                        <%=i+1 %>
                     </td>
                       <td>
-                        <%=result[i]. %>
+                        <%=result[i].name %>
                       </td>
                       <td>
-                        <%=result[i]. %>
+                        <%=result[i].emailId %>
                       </td>
                       <td>
-                        <%=result[i].yearOfStudy %>
+                        <%=result[i].DOB %>
                       </td>
                       <td>
-                        <%=result[i].native %>
+                        <%=result[i].gender %>
+                      </td>
+                      <td>
+                        <%=result[i].courseName %>
+                      </td>
+                      <td>
+                        <%=result[i].tenthSchool %>
+                      </td>
+                      <td>
+                        <%=result[i].twelfthSchool %>
                       </td>
                       <td>
                         <%=result[i].createAt %>
                       </td>
                       <td>Null</td>
+                      <td>
+                        <div class="editAction size">
+                        <a href="/student/edit" class="action">Action</a>
+                        </div>
+                      </td>
                     </tr>
                     <% } %>
                 </tbody>
               </table>
             </div>
-          </main>
-
-
-
     </main>
     <footer>
         <%- include('../../partials/footer') %>
