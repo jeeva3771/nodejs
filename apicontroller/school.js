@@ -131,10 +131,10 @@ function deleteSchool(req, res) {
     }
 }
 module.exports = (app) => {
-    app.get('/school', readSchool)
-    app.get('/school/:id', readOneSchool)
-    app.post('/school', createSchool)
-    app.put('/school/:id', updateSchool)
-    app.delete('/school/:id', deleteSchool)
+    app.get('/api/school', readSchool)
+    app.get('/api/school/:id', readOneSchool)
+    app.post('/api/school', createSchool)
+    app.put('/api/school/:id', updateSchool)
+    app.delete('/api/school/:id', deleteSchool)
 }
 
