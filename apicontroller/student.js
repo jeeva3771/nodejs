@@ -71,7 +71,7 @@ function createStudent(req, res) {
     const mysqlClient = req.app.mysqlClient
 
     try {
-        mysqlClient.query('insert into test_new.student(name,dob,gender,emailId,courseId) values(?,?,?,?,?)', [name, dob, gender, emailId, courseId], function (err, result) {
+        mysqlClient.query('insert into test_new.student(name,dob,gender,emailId,courseId) values(?,?,?,?,?,?,?)', [name, dob, gender, emailId, courseId,schoolTenthId,schoolTwelfthId], function (err, result) {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
