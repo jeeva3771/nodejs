@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../../partials/head'); %>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include('../../partials/header'); %>
+  </header>
+
+  <main>
+    <form class="form-inline formDriection">
+      <div class="form-group">
+        <label for="inputPassword6" class="nameLabel">Name :</label>
+        <input type="text" id="studentName" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+      </div>
+      <div class="form-group eLabel">
+        <label for="inputPassword6" class="nameLabel">EmailId :</label>
+        <input type="email" id="eid" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+      </div>
+      <div class="form-group birth">
+        <label for="inputPassword6" class="dob">D0B :</label>
+        <input type="date" id="dob" class="form-control mx-sm-3 date" name="birthday">
+      </div>
+      <div class="option pressLabel">
+        <span class="pressSection">Gender :</span>
+
+        <div class="form-check form-check-inline">
+
+          <input class="form-check-input pressLabel-1" type="radio" name="gender" value="Male">
+          <label class="form-check-label" for="inlineRadio1">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" value="Female">
+          <label class="form-check-label" for="inlineRadio1">Female</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" value="Transgender">
+          <label class="form-check-label" for="inlineRadio2">Transgender</label>
+        </div>
+      </div>
+      <div class="form-group section">
+        <label for="inputPassword6">Course Name :</label>
+        <select name="cars" id="course" class="form-control mx-sm-3">
+          <option value="">Select</option>
+        </select>
+      </div>
+      <div class="form-group inputLabel">
+        <label for="inputPassword6">10th SchoolName :</label>
+        <select id="tenthSchool" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+          <option value="">Select</option>
+        </select>
+      </div>
+      <div class="form-group inputLabel">
+        <label for="inputPassword6">12th SchoolName :</label>
+        <select id="twelfthSchool" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+          <option value="">Select</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-primary submit" onclick="createStudent()">Submit</button>
+    </form>
+  </main>
+  <script>
+    function createStudent() {
+      var studentName = document.getElementById('studentName').value;
+      var email = document.getElementById('eid').value;
+      var dob = document.getElementById('dob').value;
+      var course = document.getElementById('course').value;
+      var tenthSchool = document.getElementById('tenthSchool').value;
+      var twelfthSchool = document.getElementById('twelfthSchool').value;
+      var gender = document.querySelector('input[name="gender"]:checked').value;
+
+
+      const data = {
+        "studentName": studentName,
+        "eid": email,
+        "dob": dob,
+        "gender": gender,
+        "course": course,
+        "tenthSchool": tenthSchool,
+        "twelfthSchool": twelfthSchool
+
+      }
+      console.log(data)
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        "name": studentName,
+        "dob": dob,
+        "gender": gender,
+        "emailId": email,
+        "courseId": course,
+        "schoolTenthId": tenthSchool,
+        "schoolTwelfthId": twelfthSchool
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw
+      };
+
+      fetch("http://localhost:2000/api/student", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+    }
+
+    function loadCourse() {
+      fetch("http://localhost:2000/api/course")
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result)
+          var select = document.getElementById("course");
+          for (var i = 0; i < result.length; i++) {
+            var opt = result[i];
+            console.log(opt)
+            var el = document.createElement("option");
+            el.text = opt.courseName;
+            el.value = opt.id;
+            select.appendChild(el);
+          }
+        })
+        .catch((error) => console.error(error));
+    }
+
+    loadCourse()
+
+    function loadTenthSchool() {
+      fetch("http://localhost:2000/api/school")
+        .then((response) => response.json())
+        .then((result) => {
+          var select = document.getElementById("tenthSchool")
+          for (var i = 0; i < result.length; i++) {
+            var opt = result[i];
+            var el = document.createElement("option")
+            el.text = opt.name;
+            el.value = opt.id;
+            select.appendChild(el);
+          }
+        })
+        .catch((error) => console.error(error))
+    }
+
+    loadTenthSchool()
+
+    function loadTwelfthSchool() {
+      fetch("http://localhost:2000/api/school")
+      .then((response) => response.json())
+      .then((result) => {
+        var select = document.getElementById("twelfthSchool")
+        for(var i = 0; i < result.length; i++) {
+        var opt = result[i];
+        var el = document.createElement("option")
+        el.text = opt.name;
+        el.value = opt.id;
+        select.appendChild(el);
+      }
+      })
+      .catch ((error) => console.error(error))
+    }
+
+    loadTwelfthSchool()
+  </script>
+  <footer>
+    <%- include('../../partials/footer'); %>
+  </footer>
+
+</body>
+
+</html>
