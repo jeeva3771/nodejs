@@ -2,7 +2,7 @@ function loadHomePage(req, res) {
     const mysqlClient = req.app.mysqlClient;
     try {
         mysqlClient.query('SELECT COUNT(*) as totalStudent FROM student', (err, result) => {
-            if (err) {
+            if (err) {  
                 res.status(400).send(err.sqlMessage)
             } else {
                 mysqlClient.query('SELECT COUNT(*) as totalCourse FROM course', (err2, result2) => {

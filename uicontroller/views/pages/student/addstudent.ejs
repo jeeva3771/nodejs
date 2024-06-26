@@ -29,17 +29,16 @@
         <span class="pressSection">Gender :</span>
 
         <div class="form-check form-check-inline">
-
-          <input class="form-check-input pressLabel-1" type="radio" name="gender" value="Male">
+          <input class="form-check-input pressLabel-1" type="radio" name="gender" value="male">
           <label class="form-check-label" for="inlineRadio1">Male</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="gender" value="Female">
+          <input class="form-check-input" type="radio" name="gender" value="female">
           <label class="form-check-label" for="inlineRadio1">Female</label>
         </div>
 
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="gender" value="Transgender">
+          <input class="form-check-input" type="radio" name="gender" value="transgender">
           <label class="form-check-label" for="inlineRadio2">Transgender</label>
         </div>
       </div>
@@ -61,6 +60,7 @@
           <option value="">Select</option>
         </select>
       </div>
+      <input type="hidden" id="studentId" value="<%=studentId %>" />
       <button type="button" class="btn btn-primary submit" onclick="createStudent()">Submit</button>
     </form>
   </main>
@@ -73,7 +73,7 @@
       var tenthSchool = document.getElementById('tenthSchool').value;
       var twelfthSchool = document.getElementById('twelfthSchool').value;
       var gender = document.querySelector('input[name="gender"]:checked').value;
-
+      const studentId = document.getElementById('studentId').value
 
       const data = {
         "studentName": studentName,
@@ -83,9 +83,7 @@
         "course": course,
         "tenthSchool": tenthSchool,
         "twelfthSchool": twelfthSchool
-
       }
-      console.log(data)
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -100,15 +98,28 @@
         "schoolTwelfthId": twelfthSchool
       });
 
+      // var method = ""
+      // if (studentId) {
+      //   method = "PUT"
+      // } else {
+      //   method = "POST"
+      // }
       const requestOptions = {
-        method: "POST",
+        method: studentId ? 'PUT' : 'POST',
         headers: myHeaders,
         body: raw
       };
 
-      fetch("http://localhost:2000/api/student", requestOptions)
+      let url = 'http://localhost:2000/api/student'
+      if (studentId) {
+        url = url + '/' + studentId
+      }
+
+      fetch(url, requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((result) => {
+          window.location = '/student'
+        })
         .catch((error) => console.error(error));
     }
 
@@ -116,11 +127,9 @@
       fetch("http://localhost:2000/api/course")
         .then((response) => response.json())
         .then((result) => {
-          console.log(result)
           var select = document.getElementById("course");
           for (var i = 0; i < result.length; i++) {
             var opt = result[i];
-            console.log(opt)
             var el = document.createElement("option");
             el.text = opt.courseName;
             el.value = opt.id;
@@ -130,43 +139,54 @@
         .catch((error) => console.error(error));
     }
 
-    loadCourse()
-
-    function loadTenthSchool() {
+    function loadSchool() {
       fetch("http://localhost:2000/api/school")
         .then((response) => response.json())
         .then((result) => {
-          var select = document.getElementById("tenthSchool")
+          var select10 = document.getElementById("tenthSchool")
+          var select12 = document.getElementById("twelfthSchool")
           for (var i = 0; i < result.length; i++) {
             var opt = result[i];
-            var el = document.createElement("option")
-            el.text = opt.name;
-            el.value = opt.id;
-            select.appendChild(el);
+            var option1 = document.createElement("option")
+            option1.text = opt.name;
+            option1.value = opt.id;
+            var option2 = document.createElement("option")
+            option2.text = opt.name;
+            option2.value = opt.id;
+            select12.appendChild(option1);
+            select10.appendChild(option2);
           }
         })
         .catch((error) => console.error(error))
     }
 
-    loadTenthSchool()
+    loadCourse()
+    loadSchool()
 
-    function loadTwelfthSchool() {
-      fetch("http://localhost:2000/api/school")
-      .then((response) => response.json())
-      .then((result) => {
-        var select = document.getElementById("twelfthSchool")
-        for(var i = 0; i < result.length; i++) {
-        var opt = result[i];
-        var el = document.createElement("option")
-        el.text = opt.name;
-        el.value = opt.id;
-        select.appendChild(el);
-      }
-      })
-      .catch ((error) => console.error(error))
+    function getStudent(studentId) {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+      };
+
+      fetch("http://localhost:2000/api/student/" + studentId, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          document.getElementById('studentName').value = result.name;
+          document.getElementById('eid').value = result.emailId;
+          document.getElementById('dob').value = result.dob;
+          document.getElementById('course').value = result.courseId;
+          document.getElementById('tenthSchool').value = result.schoolTenthId;
+          document.getElementById('twelfthSchool').value = result.schoolTwelfthId;
+          document.querySelector('input[name="gender"][value="' + result.gender + '"]').checked = true
+        })
+        .catch((error) => console.error(error));
     }
 
-    loadTwelfthSchool()
+    const studentId = document.getElementById('studentId').value
+    if (studentId) {
+      getStudent(studentId)
+    }
   </script>
   <footer>
     <%- include('../../partials/footer'); %>

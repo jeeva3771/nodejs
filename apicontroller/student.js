@@ -36,8 +36,8 @@ function readOneStudent(req, res) {
 	                        stud.*,
                             cour.courseName,
                             sch1.name as 10thSchool,
-	                        sch2.name as 12thSchool
-
+	                        sch2.name as 12thSchool,
+                            DATE_FORMAT(dob, "%Y-%m-%d") as dob
                             from student as stud
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId

@@ -5,7 +5,7 @@ function readCourse(req, res) {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
-                res.status(200).send(result)
+                res.status(200).json(result)
             }
         })
     } catch (error) {

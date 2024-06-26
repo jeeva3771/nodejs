@@ -65,23 +65,27 @@
     padding-left: 4px;
   }
 
-  a {
-    color: white;
-  }
-
   .editAction {
     margin-top: 6px;
     background-color: green;
   }
 
+  .editDel {
+    flex-direction: row;
+    display: flex;
+    gap: 10px;
+  }
+
   .addClick {
     background-color: black;
+    color: white;
   }
 
   .size {
     font-weight: bold;
     padding: 6px;
     border-radius: 10px;
+    letter-spacing: 1px;
   }
 
   .pressSection {
@@ -90,5 +94,25 @@
 
   .nameLabel {
     padding-left: 8px;
+  }
+
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:link {
+    color: white;
+  }
+
+  a {
+    color: white;
+  }
+
+  .eId {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 50px;
   }
 </style>
