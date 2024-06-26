@@ -6,7 +6,6 @@ function readStudent(req, res) {
                             cour.courseName,
                             sch1.name as 10thSchool,
 	                        sch2.name as 12thSchool
-
                             from student as stud
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId
@@ -37,8 +36,8 @@ function readOneStudent(req, res) {
 	                        stud.*,
                             cour.courseName,
                             sch1.name as 10thSchool,
-	                        sch2.name as 12thSchool
-
+	                        sch2.name as 12thSchool,
+                            DATE_FORMAT(dob, "%Y-%m-%d") as dob
                             from student as stud
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId
@@ -62,15 +61,17 @@ function createStudent(req, res) {
         gender,
         emailId,
         courseId,
+        schoolTenthId,
+        schoolTwelfthId 
     } = req.body;
-    if (name === '' || dob === '' || gender === '' || emailId === '' || courseId === '') {
+    if (name === '' || dob === '' || gender === '' || emailId === '' || courseId === '' || schoolTenthId === '' || schoolTwelfthId ==='') {
         res.status(400).send('invalid input')
     }
 
     const mysqlClient = req.app.mysqlClient
 
     try {
-        mysqlClient.query('insert into test_new.student(name,dob,gender,emailId,courseId) values(?,?,?,?,?)', [name, dob, gender, emailId, courseId], function (err, result) {
+        mysqlClient.query('insert into test_new.student(name,dob,gender,emailId,courseId,schoolTenthId,schoolTwelfthId) values(?,?,?,?,?,?,?)', [name, dob, gender, emailId, courseId,schoolTenthId,schoolTwelfthId], function (err, result) {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
@@ -90,6 +91,8 @@ function updateStudent(req, res) {
         gender = null,
         emailId = null,
         courseId = null,
+        schoolTenthId = null,
+        schoolTwelfthId = null
     } = req.body;
 
     const values = []
@@ -118,6 +121,16 @@ function updateStudent(req, res) {
     if (courseId) {
         values.push(courseId)
         updates.push(' courseId = ?')
+    }
+
+    if (schoolTenthId) {
+        values.push(schoolTenthId)
+        updates.push('schoolTenthId = ?')
+    }
+
+    if (schoolTwelfthId) {
+        values.push(schoolTwelfthId)
+        updates.push('schoolTwelfthId = ?')
     }
 
     values.push(studId)

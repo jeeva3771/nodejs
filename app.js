@@ -11,6 +11,7 @@ const school = require('./apicontroller/school.js')
 
 // ui controllers
 const home = require('./uicontroller/home.js')
+const studentUi = require('./uicontroller/studentui.js')
 
 const app = express()
 app.use(logger('dev'))
@@ -37,6 +38,7 @@ app.mysqlClient.connect(function (err) {
         course(app)
         school(app)
         home(app)
+        studentUi(app)
 
         app.listen(2000, () => {
             console.log('listen 2000 port')
