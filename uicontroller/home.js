@@ -17,7 +17,6 @@ function loadHomePage(req, res) {
                                     totalStudent: result[0].totalStudent,
                                     totalCourse: result2[0].totalCourse,
                                     totalSchool: result3[0].totalSchool
-
                                 })
                             }
                         })
