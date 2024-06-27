@@ -33,15 +33,11 @@ function editStudent(req, res){
     res.render('pages/student/addstudent.ejs', { studentId: studentId })
 }
 
-function deleteStudent(req, res){
-    const studentId = req.params.id
-    res.render('pages/student/addstudent.ejs', { studentId: studentId })
-}
+
 
 module.exports = (app) => {
     app.get('/student', loadStudentPage)
     app.get('/student/add', loadAddStudent)
     app.get('/student/:id', editStudent)
-    app.get('/delete?student/:id', deleteStudent)
 }
 

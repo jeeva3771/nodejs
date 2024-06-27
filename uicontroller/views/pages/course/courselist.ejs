@@ -1,0 +1,87 @@
+<html>
+
+<head>
+  <%- include('../../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../../partials/header.ejs'); %>
+  </header>
+  <main>
+    <div class="jumbotron">
+      <div class="Click">
+        <a href="/course/add" class="addClick size">ADD COURSE</a>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Course</th>
+            <th scope="col">Description</th>
+            <th scope="col">CreateAt</th>
+            <th scope="col">UpdateAt</th>
+            <th scope="col">Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <% for(i=0; i < result.length; i++) { %>
+            <tr>
+              <td scope="row">
+                <%=i+1 %>
+              </td>
+              <td>
+                <%=result[i].courseName %>
+              </td>
+              <td>
+                <%=result[i].courseDescription %>
+              </td>
+              <td>
+                <%=result[i].createAt %>
+              </td>
+              <td>
+                Null
+              </td>
+              <td>
+                <div class="editDel">
+                  <div class="editAction size">
+                    <a href="/course/<%=result[i].id %>">Edit</a>
+                  </div>
+                  <div class="editAction size">
+                    <a class="pointer" onclick="deleteCourse(<%=result[i].id %>)">Delete</a>
+                  </div>
+                </div>
+              </td>
+
+            </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    function deleteCourse(courseId) {
+      var result = confirm ('are you sure you want to delete?')
+
+      if(!result){
+        return
+      }
+      const requestOptions = {
+        method: "DELETE",
+      };
+
+      fetch("http://localhost:2000/api/course/" + courseId, requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          window.location = '/course'
+        })
+        .catch((error) => console.error(error));
+    }
+  </script>
+  <footer>
+    <%- include('../../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

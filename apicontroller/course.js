@@ -32,17 +32,17 @@ function readOneCourse(req, res) {
 function createCourse(req, res) {
     const {
         courseName,
-        description
+        courseDescription
     } = req.body;
 
-    if (courseName === '' || description === '') {
+    if (courseName === '' || courseDescription === '') {
         res.status(400).send('invalid input')
     }
 
     const mysqlClient = req.app.mysqlClient
 
     try {
-        mysqlClient.query('insert into course(courseName,description) values(?,?)', [courseName, description], function (err, result) {
+        mysqlClient.query('insert into course(courseName,courseDescription) values(?,?)', [courseName, courseDescription], function (err, result) {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
@@ -58,7 +58,7 @@ function updateCourse(req, res) {
     const studId = req.params.id;
     const {
         courseName = null,
-        description = null
+        courseDescription = null
     } = req.body;
 
     const values = []
@@ -69,9 +69,9 @@ function updateCourse(req, res) {
         updates.push(' courseName = ?')
     }
 
-    if (description) {
-        values.push(description)
-        updates.push(' description = ?')
+    if (courseDescription) {
+        values.push(courseDescription)
+        updates.push(' courseDescription = ?')
     }
 
     values.push(studId)
@@ -80,13 +80,11 @@ function updateCourse(req, res) {
     try {
         mysqlClient.query('update course set ' + updates.join(',') + ' where id = ?', values, function (err, result) {
             if (err) {
-                console.log(err.sqlMessage)
-                return res.status(409).send(err2.sqlMessage)
+                return res.status(409).send(err.sqlMessage)
             } else {
                 mysqlClient.query('select * from course where id = ?', [studId], function (err2, result2) {
                     if (err2) {
                         res.status(409).send(err2.sqlMessage)
-                        console.log(err2)
                     } else {
                         res.status(200).send({
                             status: 'successfull',
@@ -108,8 +106,7 @@ function deleteCourse(req, res) {
     try {
         mysqlClient.query('select * from course where id = ?', [studId], (err, result) => {
             if (err) {
-                console.log(err.sqlMessage)
-                return res.status(400).send(err2.sqlMessage)
+                return res.status(400).send(err.sqlMessage)
 
             } else {
                 mysqlClient.query('delete from course where id = ?', [studId], (err2, result2) => {

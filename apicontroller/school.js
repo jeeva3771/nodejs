@@ -82,12 +82,11 @@ function updateSchool(req, res) {
     try {
         mysqlClient.query('update school set ' + updates.join(',') + ' where id = ?', values, function (err, result) {
             if (err) {
-                console.log(err.sqlMessage)
-                return res.status(409).send(err2.sqlMessage)
+                return res.status(409).send(err.sqlMessage)
             } else {
                 mysqlClient.query('select * from school where id = ?', [studId], function (err2, result2) {
                     if (err2) {
-                        res.status(409).send(err2.sqlMessage)
+                       return res.status(409).send(err2.sqlMessage)
                     } else {
                         res.status(200).send({
                             status: 'successfull',

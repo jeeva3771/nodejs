@@ -1,7 +1,6 @@
 const express = require('express')
 const mysql = require('mysql')
 const logger = require('morgan')
-const bodyParser = require('body-parser')
 const path = require('path');
 
 // api controllers
@@ -12,11 +11,12 @@ const school = require('./apicontroller/school.js')
 // ui controllers
 const home = require('./uicontroller/home.js')
 const studentUi = require('./uicontroller/studentui.js')
+const courseUi = require('./uicontroller/courseui.js')
+const schoolUi = require('./uicontroller/schoolui.js')
 
 const app = express()
 app.use(logger('dev'))
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(bodyParser.json())
+app.use(express.json())
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/uicontroller/views'));
@@ -39,6 +39,8 @@ app.mysqlClient.connect(function (err) {
         school(app)
         home(app)
         studentUi(app)
+        courseUi(app)
+        schoolUi(app)
 
         app.listen(2000, () => {
             console.log('listen 2000 port')

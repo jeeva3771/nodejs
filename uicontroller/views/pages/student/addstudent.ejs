@@ -77,7 +77,7 @@
 
       const data = {
         "studentName": studentName,
-        "eid": email,
+        eid: email,
         "dob": dob,
         "gender": gender,
         "course": course,
@@ -178,7 +178,8 @@
           document.getElementById('course').value = result.courseId;
           document.getElementById('tenthSchool').value = result.schoolTenthId;
           document.getElementById('twelfthSchool').value = result.schoolTwelfthId;
-          document.querySelector('input[name="gender"][value="' + result.gender + '"]').checked = true
+//          document.querySelector('input[name="gender"][value="' + result.gender + '"]').checked = true
+          document.querySelector(`input[name="gender"][value="${result.gender}"]`).checked = true
         })
         .catch((error) => console.error(error));
     }
