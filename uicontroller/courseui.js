@@ -17,12 +17,12 @@ function loadCoursePage(req, res) {
 }
 
 function loadAddCourse(req, res){
-    res.render('pages/course/addcourse.ejs',{courseId: ''})
+    res.render('pages/course/courseform.ejs',{courseId: ''})
 }
 
 function loadEditStudent(req, res){
     const courseId = req.params.id;
-    res.render('pages/course/addcourse.ejs',{courseId: courseId})
+    res.render('pages/course/courseform.ejs',{courseId: courseId})
 }
 module.exports = (app) => {
     app.get('/course', loadCoursePage)
