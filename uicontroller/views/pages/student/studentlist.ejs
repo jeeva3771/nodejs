@@ -2,13 +2,20 @@
 
 <head>
   <%- include('../../partials/head.ejs') %>
+  <style>
+    .redtheme {
+      background-color: aqua;
+      height: 300px;
+      width: 300px;
+    } 
+  </style>
 </head>
-
 <body>
   <header>
     <%- include('../../partials/header.ejs') %>
   </header>
   <main>
+    <div id="test34" class="emptyBox"></div>
     <div class="jumbotron">
       <div class="Click">
         <a href="/student/add" class="addClick size">ADD STUDENT</a>
@@ -76,28 +83,41 @@
       </table>
     </div>
   </main>
-  <script>
-    function deleteStudent(studentId) {
-      var result = confirm ('are you sure you want to delete?')
-
-      if (!result)
-      return
-
-      const requestOptions = {
-        method: "DELETE",
-      };
-
-    fetch("http://localhost:2000/api/student/" + studentId, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        window.location = '/student'
-      })
-      .catch((error) => console.error(error))
-    }
-  </script>
+  
   <footer>
     <%- include('../../partials/footer.ejs') %>
   </footer>
 </body>
+<script>
+  function deleteStudent(studentId) {
+    var result = confirm ('are you sure you want to delete?')
 
+    if (!result)
+    return
+
+    const requestOptions = {
+      method: "DELETE",
+    };
+
+  fetch("http://localhost:2000/api/student/" + studentId, requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      window.location = '/student'
+    })
+    .catch((error) => console.error(error))
+  }
+
+
+  window.addEventListener('load', () => {
+        var test34 = document.getElementById('test34')
+        var f = setInterval(function(){
+            test34.style.height = parseInt(test34.clientHeight) - 2 
+             test34.style.width = parseInt(test34.clientWidth) - 2
+             test34.opacity = parseFloat(test34.style.opacity || 1) - 0.1
+             if (test34.style.height === '0px') {
+                clearInterval(f)
+            }
+        }, 100)
+    })
+</script>
 </html>

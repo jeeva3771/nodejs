@@ -9,6 +9,7 @@
     <%- include('../../partials/header.ejs'); %>
   </header>
   <main>
+    <div id="test" style="width: 100px; height: 100px; background-color: orange;"></div>
     <div class="jumbotron">
       <div class="Click">
         <a href="/course/add" class="addClick size">ADD COURSE</a>
@@ -60,28 +61,40 @@
       </table>
     </div>
   </main>
-  <script>
-    function deleteCourse(courseId) {
-      var result = confirm ('are you sure you want to delete?')
-
-      if(!result){
-        return
-      }
-      const requestOptions = {
-        method: "DELETE",
-      };
-
-      fetch("http://localhost:2000/api/course/" + courseId, requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          window.location = '/course'
-        })
-        .catch((error) => console.error(error));
-    }
-  </script>
   <footer>
     <%- include('../../partials/footer.ejs'); %>
   </footer>
 </body>
+<script>
+  function deleteCourse(courseId) {
+    var result = confirm ('are you sure you want to delete?')
+
+    if(!result){
+      return
+    }
+    const requestOptions = {
+      method: "DELETE",
+    };
+
+    fetch("http://localhost:2000/api/course/" + courseId, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        window.location = '/course'
+      })
+      .catch((error) => console.error(error));
+  }
+  
+  window.addEventListener('load', () => {
+    deleteCourse(courseId)
+    var test = document.getElementById('test')
+    var t = setInterval(function(){
+      test.style.width = parseInt(test.style.width) - 2
+      text.style.heigth = parseInt(test.style.heigth) - 2
+      if (test.style.width === '0px'){
+        clearInterval(t)
+      }
+    }, 100)
+  })
+</script>
 
 </html>

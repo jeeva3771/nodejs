@@ -24,13 +24,13 @@ function loadStudentPage(req, res) {
 }
 
 function loadAddStudent(req, res){
-    res.render('pages/student/addstudent.ejs', {studentId: ''})
+    res.render('pages/student/studentform.ejs', {studentId: ''})
 }
 
 
 function editStudent(req, res){
     const studentId = req.params.id
-    res.render('pages/student/addstudent.ejs', { studentId: studentId })
+    res.render('pages/student/studentform.ejs', { studentId: studentId })
 }
 
 
