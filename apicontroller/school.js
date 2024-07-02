@@ -1,11 +1,24 @@
 function readSchool(req, res) {
+    const {
+        limit = 10
+    } = req.query;
     const mysqlClient = req.app.mysqlClient
     try {
-        mysqlClient.query('select * from school', (err, result) => {
+        mysqlClient.query('select count(*) as totalSchool from school', (err, result) => {
+            console.log(result)
             if (err) {
-                res.status(409).send(err.sqlMessage)
+                return res.status(400).send(err.sqlMessage)
             } else {
-                res.status(200).send(result)
+                mysqlClient.query('select * from school limit ?', [limit], (err2, result2) => {
+                    if (err2) {
+                       return res.status(409).send(err2.sqlMessage)
+                    } else {
+                        res.status(200).send({
+                          totalSchool: result[0].totalSchool,
+                            data: result2
+                    })
+                    }
+                })
             }
         })
     } catch (error) {
@@ -13,11 +26,12 @@ function readSchool(req, res) {
     }
 }
 
+
 function readOneSchool(req, res) {
-    const studId = req.params.id;
+    const sclId = req.params.id;
     const mysqlClient = req.app.mysqlClient
     try {
-        mysqlClient.query('select * from school where id = ?', [studId], (err, result) => {
+        mysqlClient.query('select * from school where id = ?', [sclId], (err, result) => {
             if (err) {
                 res.status(409).send(err.sqlMessage)
             } else {
@@ -56,7 +70,7 @@ function createSchool(req, res) {
 
 function updateSchool(req, res) {
 
-    const studId = req.params.id;
+    const sclId = req.params.id;
     const {
         name = null,
         place = null
@@ -75,19 +89,18 @@ function updateSchool(req, res) {
         updates.push(' place = ?')
     }
 
-    values.push(studId)
+    values.push(sclId)
 
     const mysqlClient = req.app.mysqlClient
 
     try {
         mysqlClient.query('update school set ' + updates.join(',') + ' where id = ?', values, function (err, result) {
             if (err) {
-                console.log(err.sqlMessage)
-                return res.status(409).send(err2.sqlMessage)
+                return res.status(409).send(err.sqlMessage)
             } else {
-                mysqlClient.query('select * from school where id = ?', [studId], function (err2, result2) {
+                mysqlClient.query('select * from school where id = ?', [sclId], function (err2, result2) {
                     if (err2) {
-                        res.status(409).send(err2.sqlMessage)
+                        return res.status(409).send(err2.sqlMessage)
                     } else {
                         res.status(200).send({
                             status: 'successfull',
@@ -104,17 +117,17 @@ function updateSchool(req, res) {
 
 function deleteSchool(req, res) {
 
-    const studId = req.params.id;
+    const sclId = req.params.id;
     const mysqlClient = req.app.mysqlClient
 
     try {
-        mysqlClient.query('select * from school where id = ?', [studId], (err, result) => {
+        mysqlClient.query('select * from school where id = ?', [sclId], (err, result) => {
             if (err) {
                 console.err(err.sqlMessage)
                 return res.status(400).send(err2.sqlMessage)
 
             } else {
-                mysqlClient.query('delete from school where id = ?', [studId], (err2, result2) => {
+                mysqlClient.query('delete from school where id = ?', [sclId], (err2, result2) => {
                     if (err) {
                         res.status(400).send(err2.sqlMessage)
                     } else {

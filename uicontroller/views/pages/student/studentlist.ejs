@@ -1,14 +1,14 @@
 <html>
 
 <head>
-  <%- include('../../partials/head') %>
+  <%- include('../../partials/head.ejs') %>
 </head>
-
 <body>
   <header>
-    <%- include('../../partials/header') %>
+    <%- include('../../partials/header.ejs') %>
   </header>
   <main>
+    <div id="test34" class="emptyBox"></div>
     <div class="jumbotron">
       <div class="Click">
         <a href="/student/add" class="addClick size">ADD STUDENT</a>
@@ -66,7 +66,7 @@
                     <a href="/student/<%=result[i].id %>">Edit</a>
                   </div>
                   <div class="editAction size">
-                    <a href="/delete?student/<%=result[i].id %>" onClick=" return confirm ('Are you sure you?')">Delete</a>
+                    <a class="pointer" onClick="deleteStudent(<%=result[i].id %>)">Delete</a>
                   </div>
                 </div>
               </td>
@@ -76,24 +76,41 @@
       </table>
     </div>
   </main>
-  <script>
-    function deleteStudent() {
-      const requestOptions = {
-      method: "DELETE",
-      body: raw,
-    };
-
-    fetch("http://localhost:2000/api/student/", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        window.location = '/student'
-      })
-      .catch((error) => console.error(error))
-    }
-  </script>
+  
   <footer>
-    <%- include('../../partials/footer') %>
+    <%- include('../../partials/footer.ejs') %>
   </footer>
 </body>
+<script>
+  function deleteStudent(studentId) {
+    var result = confirm ('are you sure you want to delete?')
 
+    if (!result)
+    return
+
+    const requestOptions = {
+      method: "DELETE",
+    };
+
+  fetch("http://localhost:2000/api/student/" + studentId, requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      window.location = '/student'
+    })
+    .catch((error) => console.error(error))
+  }
+
+
+  window.addEventListener('load', () => {
+        var test34 = document.getElementById('test34')
+        var f = setInterval(function(){
+            test34.style.height = parseInt(test34.clientHeight) - 2 
+             test34.style.width = parseInt(test34.clientWidth) - 2
+             test34.opacity = parseFloat(test34.style.opacity || 1) - 0.1
+             if (test34.style.height === '0px') {
+                clearInterval(f)
+            }
+        }, 100)
+    })
+</script>
 </html>

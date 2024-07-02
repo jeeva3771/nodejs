@@ -6,12 +6,12 @@ function loadStudentPage(req, res) {
                             c.courseName,
                             DATE_FORMAT(dob, "%m/%d/%Y") as DOB,
                             s1.name as tenthSchool,
-                            s2.name as twelfthSchool,
+                            s2.name as twelthSchool,
                             DATE_FORMAT(s.createAt, "%m/%d/%Y %T") as createAt  
                             FROM student as s
                             inner join course as c ON c.id = s.courseId
                             inner join school as s1 ON s1.id = s.schoolTenthId
-                            inner join school as s2 ON s2.id = s.schoolTwelfthId`, (err, result) => {
+                            inner join school as s2 ON s2.id = s.schoolTwelthId`, (err, result) => {
             if (err) {
                 res.status(404).send(err.sqlMessage)
             } else {
@@ -24,24 +24,20 @@ function loadStudentPage(req, res) {
 }
 
 function loadAddStudent(req, res){
-    res.render('pages/student/addstudent.ejs', {studentId: ''})
+    res.render('pages/student/studentform.ejs', {studentId: ''})
 }
 
 
 function editStudent(req, res){
     const studentId = req.params.id
-    res.render('pages/student/addstudent.ejs', { studentId: studentId })
+    res.render('pages/student/studentform.ejs', { studentId: studentId })
 }
 
-function deleteStudent(req, res){
-    const studentId = req.params.id
-    res.render('pages/student/addstudent.ejs', { studentId: studentId })
-}
+
 
 module.exports = (app) => {
     app.get('/student', loadStudentPage)
     app.get('/student/add', loadAddStudent)
     app.get('/student/:id', editStudent)
-    app.get('/delete?student/:id', deleteStudent)
 }
 
