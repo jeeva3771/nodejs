@@ -56,7 +56,7 @@
       </div>
       <div class="form-group inputLabel">
         <label for="inputPassword6">12th SchoolName :</label>
-        <select id="twelfthSchool" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+        <select id="twelthSchool" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
           <option value="">Select</option>
         </select>
       </div>
@@ -75,7 +75,7 @@
     var dob = document.getElementById('dob').value;
     var course = document.getElementById('course').value;
     var tenthSchool = document.getElementById('tenthSchool').value;
-    var twelfthSchool = document.getElementById('twelfthSchool').value;
+    var twelthSchool = document.getElementById('twelthSchool').value;
     var gender = document.querySelector('input[name="gender"]:checked').value;
     const studentId = document.getElementById('studentId').value
 
@@ -86,7 +86,7 @@
       "gender": gender,
       "course": course,
       "tenthSchool": tenthSchool,
-      "twelfthSchool": twelfthSchool
+      "twelthSchool": twelthSchool
     }
 
     const myHeaders = new Headers();
@@ -99,7 +99,7 @@
       "emailId": email,
       "courseId": course,
       "schoolTenthId": tenthSchool,
-      "schoolTwelfthId": twelfthSchool
+      "schoolTwelthId": twelthSchool
     });
 
     // var method = ""
@@ -148,7 +148,7 @@
       .then((response) => response.json())
       .then((result) => {
         var select10 = document.getElementById("tenthSchool")
-        var select12 = document.getElementById("twelfthSchool")
+        var select12 = document.getElementById("twelthSchool")
         for (var i = 0; i < result.length; i++) {
           var opt = result[i];
           var option1 = document.createElement("option")
@@ -180,7 +180,7 @@
         document.getElementById('dob').value = result.dob;
         document.getElementById('course').value = result.courseId;
         document.getElementById('tenthSchool').value = result.schoolTenthId;
-        document.getElementById('twelfthSchool').value = result.schoolTwelfthId;
+        document.getElementById('twelthSchool').value = result.schoolTwelthId;
 //          document.querySelector('input[name="gender"][value="' + result.gender + '"]').checked = true
         document.querySelector(`input[name="gender"][value="${result.gender}"]`).checked = true
       })

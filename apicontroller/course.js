@@ -15,9 +15,9 @@ function readCourse(req, res) {
 
 function readOneCourse(req, res) {
     const mysqlClient = req.app.mysqlClient
-    const studId = req.params.id;
+    const courId = req.params.courseId;
     try {
-        mysqlClient.query('select * from course where id = ?', [studId], (err, result) => {
+        mysqlClient.query('select * from course where id = ?', [courId], (err, result) => {
             if (err) {
                 res.status(404).send(err.sqlMessage)
             } else {
@@ -55,7 +55,7 @@ function createCourse(req, res) {
 }
 
 function updateCourse(req, res) {
-    const studId = req.params.id;
+    const courId = req.params.id;
     const {
         courseName = null,
         courseDescription = null
@@ -74,7 +74,7 @@ function updateCourse(req, res) {
         updates.push(' courseDescription = ?')
     }
 
-    values.push(studId)
+    values.push(courId)
     const mysqlClient = req.app.mysqlClient
 
     try {
@@ -82,7 +82,7 @@ function updateCourse(req, res) {
             if (err) {
                 return res.status(409).send(err.sqlMessage)
             } else {
-                mysqlClient.query('select * from course where id = ?', [studId], function (err2, result2) {
+                mysqlClient.query('select * from course where id = ?', [courId], function (err2, result2) {
                     if (err2) {
                         res.status(409).send(err2.sqlMessage)
                     } else {
@@ -100,16 +100,16 @@ function updateCourse(req, res) {
 }
 
 function deleteCourse(req, res) {
-    const studId = req.params.id;
+    const courId = req.params.id;
 
     const mysqlClient = req.app.mysqlClient
     try {
-        mysqlClient.query('select * from course where id = ?', [studId], (err, result) => {
+        mysqlClient.query('select * from course where id = ?', [courId], (err, result) => {
             if (err) {
                 return res.status(400).send(err.sqlMessage)
 
             } else {
-                mysqlClient.query('delete from course where id = ?', [studId], (err2, result2) => {
+                mysqlClient.query('delete from course where id = ?', [courId], (err2, result2) => {
                     if (err) {
                         res.status(400).send(err2.sqlMessage)
                     } else {
@@ -128,7 +128,7 @@ function deleteCourse(req, res) {
 
 module.exports = (app) => {
     app.get('/api/course', readCourse)
-    app.get('/api/course/:id', readOneCourse)
+    app.get('/api/course/:courseId', readOneCourse)
     app.post('/api/course', createCourse)
     app.put('/api/course/:id', updateCourse)
     app.delete('/api/course/:id', deleteCourse)

@@ -9,7 +9,7 @@
     <%- include('../../partials/header.ejs'); %>
   </header>
   <main>
-    <div id="test" style="width: 100px; height: 100px; background-color: orange;"></div>
+    <div id="test37" class="emptyBox"></div>
     <div class="jumbotron">
       <div class="Click">
         <a href="/course/add" class="addClick size">ADD COURSE</a>
@@ -85,12 +85,11 @@
   }
   
   window.addEventListener('load', () => {
-    deleteCourse(courseId)
-    var test = document.getElementById('test')
-    var t = setInterval(function(){
-      test.style.width = parseInt(test.style.width) - 2
-      text.style.heigth = parseInt(test.style.heigth) - 2
-      if (test.style.width === '0px'){
+    var test37 = document.getElementById('test37')
+    var t = setInterval(function() {
+      test37.style.height = parseInt(test37.clientHeight) - 2
+      test37.style.width = parseInt(test37.clientWidth) - 2
+      if (test37.style.height === 0) {
         clearInterval(t)
       }
     }, 100)

@@ -9,9 +9,9 @@ function readStudent(req, res) {
                             from student as stud
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId
-                            inner join school as sch2 on sch2.id = stud.schoolTwelfthId`, (err, result) => {
+                            inner join school as sch2 on sch2.id = stud.schoolTwelthId`, (err, result) => {
             if (err) {
-                res.status(409).send(err.sqlMessage)
+               return res.status(409).send(err.sqlMessage)
             } else {
                 res.status(200).send(result)
             }
@@ -41,7 +41,7 @@ function readOneStudent(req, res) {
                             from student as stud
                             inner join course as cour on cour.id = stud.courseId
                             inner join school as sch1 on sch1.id = stud.schoolTenthId
-                            inner join school as sch2 on sch2.id = stud.schoolTwelfthId
+                            inner join school as sch2 on sch2.id = stud.schoolTwelthId
                             where stud.id = ?`, [studId], (err, result) => {
             if (err) {
                 res.status(409).send(err.sqlMessage)
@@ -62,16 +62,16 @@ function createStudent(req, res) {
         emailId,
         courseId,
         schoolTenthId,
-        schoolTwelfthId 
+        schoolTwelthId 
     } = req.body;
-    if (name === '' || dob === '' || gender === '' || emailId === '' || courseId === '' || schoolTenthId === '' || schoolTwelfthId ==='') {
+    if (name === '' || dob === '' || gender === '' || emailId === '' || courseId === '' || schoolTenthId === '' || schoolTwelthId ==='') {
         res.status(400).send('invalid input')
     }
 
     const mysqlClient = req.app.mysqlClient
 
     try {
-        mysqlClient.query('insert into test_new.student(name,dob,gender,emailId,courseId,schoolTenthId,schoolTwelfthId) values(?,?,?,?,?,?,?)', [name, dob, gender, emailId, courseId,schoolTenthId,schoolTwelfthId], function (err, result) {
+        mysqlClient.query('insert into test_new.student(name,dob,gender,emailId,courseId,schoolTenthId,schoolTwelthId) values(?,?,?,?,?,?,?)', [name, dob, gender, emailId, courseId,schoolTenthId,schoolTwelthId], function (err, result) {
             if (err) {
               return res.status(409).send(err.sqlMessage)
             } else {
@@ -92,7 +92,7 @@ function updateStudent(req, res) {
         emailId = null,
         courseId = null,
         schoolTenthId = null,
-        schoolTwelfthId = null
+        schoolTwelthId = null
     } = req.body;
 
     const values = []
@@ -125,12 +125,12 @@ function updateStudent(req, res) {
 
     if (schoolTenthId) {
         values.push(schoolTenthId)
-        updates.push('schoolTenthId = ?')
+        updates.push(' schoolTenthId = ?')
     }
 
-    if (schoolTwelfthId) {
-        values.push(schoolTwelfthId)
-        updates.push('schoolTwelfthId = ?')
+    if (schoolTwelthId) {
+        values.push(schoolTwelthId)
+        updates.push(' schoolTwelthId = ?')
     }
 
     values.push(studId)
@@ -165,7 +165,7 @@ function deleteStudent(req, res) {
     try {
         mysqlClient.query('select * from test_new.student where id = ?', [studId], (err, result) => {
             if (err) {
-                return res.status(400).send(err2.sqlMessage)
+                return res.status(400).send(err.sqlMessage)
             } else {
                 mysqlClient.query('delete from test_new.student where id = ?', [studId], (err2, result2) => {
                     if (err) {
@@ -173,7 +173,7 @@ function deleteStudent(req, res) {
                     } else {
                         res.status(200).send({
                             status: 'deleted',
-                            data: result
+                            data: result[0]
                         })
                     }
                 })
@@ -185,10 +185,10 @@ function deleteStudent(req, res) {
 }
 
 
-module.exports = (app) => {
-    app.get('/api/student/:id', readOneStudent)
-    app.get('/api/student', readStudent)
-    app.post('/api/student', createStudent)
-    app.put('/api/student/:id', updateStudent)
-    app.delete('/api/student/:id', deleteStudent)
+module.exports = (jeeva) => {
+    jeeva.get('/api/student/:id', readOneStudent)
+    jeeva.get('/api/student', readStudent)
+    jeeva.post('/api/student', createStudent)
+    jeeva.put('/api/student/:id', updateStudent)
+    jeeva.delete('/api/student/:id', deleteStudent)
 }
