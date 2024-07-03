@@ -54,7 +54,7 @@
                 <%=result[i].tenthSchool %>
               </td>
               <td>
-                <%=result[i].twelfthSchool %>
+                <%=result[i].twelthSchool %>
               </td>
               <td>
                 <%=result[i].createAt %>
@@ -100,17 +100,5 @@
     .catch((error) => console.error(error))
   }
 
-
-  window.addEventListener('load', () => {
-        var test34 = document.getElementById('test34')
-        var f = setInterval(function(){
-            test34.style.height = parseInt(test34.clientHeight) - 2 
-             test34.style.width = parseInt(test34.clientWidth) - 2
-             test34.opacity = parseFloat(test34.style.opacity || 1) - 0.1
-             if (test34.style.height === '0px') {
-                clearInterval(f)
-            }
-        }, 100)
-    })
 </script>
 </html>
