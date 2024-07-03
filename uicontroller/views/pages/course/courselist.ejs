@@ -84,16 +84,6 @@
       .catch((error) => console.error(error));
   }
   
-  window.addEventListener('load', () => {
-    var test37 = document.getElementById('test37')
-    var t = setInterval(function() {
-      test37.style.height = parseInt(test37.clientHeight) - 2
-      test37.style.width = parseInt(test37.clientWidth) - 2
-      if (test37.style.height === 0) {
-        clearInterval(t)
-      }
-    }, 100)
-  })
 </script>
 
 </html>
