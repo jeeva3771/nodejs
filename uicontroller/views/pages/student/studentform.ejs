@@ -19,7 +19,7 @@
       </div>
       <div class="form-group eLabel">
         <label for="inputPassword6" class="nameLabel">EmailId :</label>
-        <input type="email" id="eid" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+        <input type="email" value="" id="eid" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
       </div>
       <div class="form-group birth">
         <label for="inputPassword6" class="dob">D0B :</label>
@@ -132,13 +132,16 @@
       .then((response) => response.json())
       .then((result) => {
         var select = document.getElementById("course");
+        var optionsList = '<option>Select</option>'
         for (var i = 0; i < result.length; i++) {
           var opt = result[i];
-          var el = document.createElement("option");
-          el.text = opt.courseName;
-          el.value = opt.id;
-          select.appendChild(el);
+          optionsList = optionsList + `<option value="${opt.id}">${opt.courseName}</option>`
+          // var el = document.createElement("option");
+          // el.text = opt.courseName;
+          // el.value = opt.id;
+          // select.appendChild(el);
         }
+        select.innerHTML = optionsList
       })
       .catch((error) => console.error(error));
   }
