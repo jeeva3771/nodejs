@@ -21,7 +21,7 @@ function readSchool(req, res) {
                         res.status(200).send({
                           totalSchool: result[0].totalSchool,
                           page: page,
-                          limit : limit,
+                          limit : num,
                           data: result2
 
                     })
@@ -133,10 +133,10 @@ function deleteSchool(req, res) {
             if (err) {
                 console.err(err.sqlMessage)
                 return res.status(400).send(err2.sqlMessage)
-
             } else {
                 mysqlClient.query('delete from school where id = ?', [sclId], (err2, result2) => {
-                    if (err) {
+                    if (err2) {
+                        console.log(err2)
                         res.status(400).send(err2.sqlMessage)
                     } else {
                         res.status(200).send({

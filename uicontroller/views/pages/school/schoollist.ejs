@@ -71,6 +71,7 @@
         fetch(`http://localhost:2000/api/school?limit=${limitNum.value}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
+                console.log(result.totalSchool)
                 var trHtml = ''
                 
                 for (var i = 0; i < result.data.length; i++) {
@@ -92,6 +93,13 @@
                                     </tr>`
                 }
                 table.innerHTML = trHtml
+
+                // pagination work
+                var pageTotal = result.totalSchool/result.limit
+                console.log(pageTotal)
+                var mathValue = Math.ceil(pageTotal)
+                console.log(mathValue)
+                for (var i=0; i < )
             }).catch((error) => console.error(error));
     }
 
@@ -106,13 +114,20 @@
         };
 
         fetch("http://localhost:2000/api/school/" + schoolId, requestOptions)
-            .then((response) => response.text())
-            .then((result) => {
-                window.location = '/school'
+            .then(async (response) =>  {
+                var finalText = await response.text()
+                if (response.ok) {
+                    return finalText
+                } else {
+                    throw new Error(finalText)
+                }
             })
-            .catch((error) => console.error(error));
+            .then((result) => {
+                loadSchoolPage()
+            })
+            .catch((error) => alert(error));
     }
-
+    
     window.addEventListener('load', () => {
         loadSchoolPage()
     })
