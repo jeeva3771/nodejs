@@ -10,14 +10,22 @@
         <%- include('../../partials/header.ejs') %>
     </header>
     <main>
-        <div id="test34" class="emptyBox"></div>
-        <div id="total">
-            <p>loading..</p>
-        </div>
+        
+        
         <div class="jumbotron">
             <div class="Click">
                 <a href="/school/add" class="addClick size">ADD SCHOOL</a>
             </div>
+            <select id="limit" onchange="loadSchoolPage()">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </select>
+            
+            
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -33,59 +41,57 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="editDel cntr">
+                <div class="editAction size">
+                    <a href="">1</a>
+                </div>
+                <div class="editAction size">
+                    <a href="">2</a>
+                </div>
+                
+            </div>
+
         </div>
+        
     </main>
     <footer>
         <%- include('../../partials/footer.ejs') %>
     </footer>
 </body>
 <script>
-    var total = document.getElementById("total")
-    console.log(total)
+    
     var table = document.getElementById("schoolTableBody");
-    console.log(table)
-
-
-
-
-
-
+    
+    var limitNum = document.getElementById("limit")
 
     function loadSchoolPage() {
         const requestOptions = {
             method: "GET",
         };
-        fetch("http://localhost:2000/api/school", requestOptions)
+        fetch(`http://localhost:2000/api/school?limit=${limitNum.value}`, requestOptions)
             .then((response) => response.json())
-            .then((jjj) => {
-                var total = document.getElementById("total");
-                var table = document.getElementById("schoolTableBody");
-                var ts = ''
+            .then((result) => {
                 var trHtml = ''
                 
-                for (var i = 0; i < jjj.data.length; i++) {
-                    var opt = jjj.data[i];
-                    ts = ts + `<p>${opt.totalSchool}</p>`
-                    trHtml = trHtml + `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${opt.name}</td>
-                <td>${opt.place}</td>
-                <td>
-                    <div class="editDel">
-                        <div class="editAction size">
-                            <a href="school/${opt.id}">Edit</a>
-                        </div>
-                        <div class="editAction size">
-                            <a class="pointer" onclick="deleteSchool(${opt.id})">Delete</a>
-                        </div>
-                        </div>
-                 </td>
-            </tr>
-        `
+                for (var i = 0; i < result.data.length; i++) {
+                    var opt = result.data[i];
+                    trHtml = trHtml + `<tr>
+                                        <td>${i + 1}</td>
+                                        <td>${opt.name}</td>
+                                        <td>${opt.place}</td>
+                                        <td>
+                                            <div class="editDel">
+                                                <div class="editAction size">
+                                                    <a href="school/${opt.id}">Edit</a>
+                                                </div>
+                                                <div class="editAction size">
+                                                    <a class="pointer" onclick="deleteSchool(${opt.id})">Delete</a>
+                                                </div>
+                                                </div>
+                                        </td>
+                                    </tr>`
                 }
                 table.innerHTML = trHtml
-                total.innerHTML = ts
             }).catch((error) => console.error(error));
     }
 
@@ -109,16 +115,6 @@
 
     window.addEventListener('load', () => {
         loadSchoolPage()
-        var test34 = document.getElementById('test34')
-        var f = setInterval(function(){
-             test34.style.height = parseInt(test34.clientHeight) - 2
-              
-             test34.style.width = parseInt(test34.clientWidth) - 2
-             console.log(test34.style.width)
-             if (test34.style.height === 0) {
-                clearInterval(f)
-             }
-        }, 100)
     })
 </script>
 

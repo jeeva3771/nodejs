@@ -1,21 +1,29 @@
 function readSchool(req, res) {
     const {
-        limit = 10
+        page = 1,
+        limit = 2       
     } = req.query;
     const mysqlClient = req.app.mysqlClient
+    var num = parseInt(limit)
+
+    const offset = (parseInt(page)- 1) * num  
+
     try {
         mysqlClient.query('select count(*) as totalSchool from school', (err, result) => {
             console.log(result)
             if (err) {
                 return res.status(400).send(err.sqlMessage)
             } else {
-                mysqlClient.query('select * from school limit ?', [limit], (err2, result2) => {
+                mysqlClient.query('select * from school limit ? offset ?', [num,offset], (err2, result2) => {
                     if (err2) {
-                       return res.status(409).send(err2.sqlMessage)
+                       return res.status(409).send(err2)
                     } else {
                         res.status(200).send({
                           totalSchool: result[0].totalSchool,
-                            data: result2
+                          page: page,
+                          limit : limit,
+                          data: result2
+
                     })
                     }
                 })
